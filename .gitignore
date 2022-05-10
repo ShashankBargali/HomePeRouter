@@ -1,4 +1,5 @@
+#dependencies
 /node_modules
 
-
+#Local Environment variable
 .env.local
