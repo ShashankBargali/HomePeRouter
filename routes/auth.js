@@ -22,7 +22,7 @@ router.post('/login', async (req, res) => {
             return;
         }
         else if (pin === payAc.pin) {
-            let start = 'homePe://asbvb'
+            let start = 'homeUpi://asbvb'
             let upiId = payAc.acno + '@homepe'
             const salt = await bcrypt.genSalt(15);
             let qrCode = start + salt + '/?upiId=' + upiId + '&secured=true';

@@ -26,9 +26,9 @@ router.put('/send', fetchuser, async (req, res) => {
         const id = consumer.payHomeId;
 
         const payHomeUser = await User.findById(id).select("-__v").select("-password").select('-digipay')
-
-        const done = await User.findByIdAndUpdate(id, { $set: { balance: payHomeUser.balance + amount } }, { new: true })
-
+        
+        const done = await User.findByIdAndUpdate(id, { $set: { balance: parseFloat(payHomeUser.balance) + parseFloat(amount) } }, { new: true })
+        
         if (done) {
             const loggedUser = await HomePe.findById(userId);
             const loggedUserPayHome = await User.findById(loggedUser.payHomeId)
