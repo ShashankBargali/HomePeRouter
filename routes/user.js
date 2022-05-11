@@ -19,8 +19,9 @@ router.put('/send', fetchuser, async (req, res) => {
 
         const loggedUser = await HomePe.findById(userId);
 
-        if (parseFloat(loggedUser.balance) > parseFloat(amount)) {
+        const loggedUserPayHome = await User.findById(loggedUser.payHomeId)
 
+        if (parseFloat(loggedUserPayHome.balance) > parseFloat(amount)) {
             const consumer = await HomePe.findOne({ upiId })
 
             if (!consumer) {
@@ -34,7 +35,6 @@ router.put('/send', fetchuser, async (req, res) => {
             const done = await User.findByIdAndUpdate(id, { $set: { balance: parseFloat(payHomeUser.balance) + parseFloat(amount) } }, { new: true })
 
             if (done) {
-                const loggedUserPayHome = await User.findById(loggedUser.payHomeId)
                 User.findByIdAndUpdate(loggedUser.payHomeId, {
                     $set: {
                         balance: loggedUserPayHome.balance - req.body.amount
