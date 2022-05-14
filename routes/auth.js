@@ -6,10 +6,6 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 JWT_SECRET = 'ShashankTheGreat@123'
 
-router.get('/', (req, res) => {
-    res.send('hi this is Shashank. Welcome to HomePe Authentication')
-
-})
 
 router.post('/login', async (req, res) => {
     const { acno, pin } = req.body;

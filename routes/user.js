@@ -3,12 +3,8 @@ const fetchuser = require('../middleware/fetchuser');
 const generateQR = require('../middleware/generateQr');
 const User = require('../models/Auth');
 const HomePe = require('../models/HomePe');
+const Statement = require('../models/Statement');
 const router = express.Router();
-
-router.get('/', (req, res) => {
-    res.json({ response: 'hi this is Shashank. Welcome to HomePe User Facilities' })
-})
-
 
 router.put('/send', fetchuser, async (req, res) => {
     try {
@@ -43,6 +39,22 @@ router.put('/send', fetchuser, async (req, res) => {
                     success = true;
                     res.json({ success, response: "Done securely. Without any internal affairs" })
                 })
+
+                
+                const date = new Date();
+                const actionTo = 'homeUpi://statements/?action=sent&upiId=' + upiId;
+                const balanceOf = loggedUserPayHome.balance;
+                const amount = req.body.amount
+
+                Statement.create({
+                    payId: userId, amount, action: actionTo, balance: balanceOf, date
+                }).catch(err => console.log(err))
+
+                const actionFrom = 'homeUpi://statements/?action=received&upiId=' + loggedUser.upiId;
+                const balanceTo = payHomeUser.balance;
+                Statement.create({
+                    payId: consumer._id, amount, action: actionFrom, balance: balanceTo, date
+                }).catch(err => console.log(err))
             }
         }
         else {
