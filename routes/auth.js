@@ -4,6 +4,7 @@ const HomePe = require('../models/HomePe');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const fetchuser = require('../middleware/fetchuser');
 JWT_SECRET = 'ShashankTheGreat@123'
 
 
@@ -58,11 +59,28 @@ router.post('/login', async (req, res) => {
         }
         let authtoken = jwt.sign(data.user, JWT_SECRET);
         success = true
-        res.json({ success, response: authtoken})
+        res.json({ success, response: authtoken })
         return;
     }
     else {
         res.json({ success, response: "Can't find this account. Please create account on PayHome first and then login to Homepe. If Created then enter correct credentials" })
+    }
+})
+
+router.get('/fetchbankdetails', fetchuser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const loggedUser = await HomePe.findById(userId);
+        if (!loggedUser) {
+            res.json({ success: false, response: "Can't find this Home Pe Account" })
+            return;
+        }
+        const loggedUserPayHome = await User.findById(loggedUser.payHomeId).select("-password").select('-__v');
+
+        res.json({ success: true, response: loggedUserPayHome })
+    } catch (error) {
+        res.json({ success: false, response: "Some Internal Error Occured" })
     }
 })
 module.exports = router
