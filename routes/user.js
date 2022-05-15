@@ -43,7 +43,7 @@ router.put('/send', fetchuser, async (req, res) => {
                 
                 const date = new Date();
                 const actionTo = 'homeUpi://statements/?action=sent&upiId=' + upiId;
-                const balanceOf = loggedUserPayHome.balance;
+                const balanceOf = loggedUserPayHome.balance - req.body.amount;
                 const amount = req.body.amount
 
                 Statement.create({
@@ -51,7 +51,7 @@ router.put('/send', fetchuser, async (req, res) => {
                 }).catch(err => console.log(err))
 
                 const actionFrom = 'homeUpi://statements/?action=received&upiId=' + loggedUser.upiId;
-                const balanceTo = payHomeUser.balance;
+                const balanceTo = payHomeUser.balance + req.body.amount;
                 Statement.create({
                     payId: consumer._id, amount, action: actionFrom, balance: balanceTo, date
                 }).catch(err => console.log(err))
