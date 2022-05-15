@@ -76,7 +76,7 @@ router.get('/fetchbankdetails', fetchuser, async (req, res) => {
             res.json({ success: false, response: "Can't find this Home Pe Account" })
             return;
         }
-        const loggedUserPayHome = await User.findById(loggedUser.payHomeId).select("acno");
+        const loggedUserPayHome = await User.findById(loggedUser.payHomeId).select("acno").select('name');
 
         res.json({ success: true, response: loggedUserPayHome })
     } catch (error) {
