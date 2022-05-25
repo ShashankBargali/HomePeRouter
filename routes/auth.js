@@ -83,4 +83,22 @@ router.get('/fetchbankdetails', fetchuser, async (req, res) => {
         res.json({ success: false, response: "Some Internal Error Occured" })
     }
 })
+
+router.put('/changepin', fetchuser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const pin = req.body.pin;
+
+        const loggedUser = await HomePe.findByIdAndUpdate(userId, {$set: {
+            pin: pin
+        }});
+        if (!loggedUser) {
+            res.json({ success: false, response: "Can't find this Home Pe Account" })
+            return;
+        }
+        res.json({ success: true, response: loggedUserPayHome })
+    } catch (error) {
+        res.json({ success: false, response: "Some Internal Error Occured" })
+    }
+})
 module.exports = router
