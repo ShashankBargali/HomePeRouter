@@ -93,7 +93,7 @@ router.put('/changepin', fetchuser, async (req, res) => {
             pin: pin
         }});
         if (!loggedUser) {
-            res.json({ success: false, response: "Can't find this Home Pe Account" })
+            res.json({ success: false, response: "Can't find this HomePe Account" })
             return;
         }
         res.json({ success: true, response: loggedUserPayHome })

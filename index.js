@@ -16,6 +16,6 @@ app.use('/api/user', require('./routes/user'));
 app.use('/api/transaction', require('./routes/transactions'));
 
 
-app.listen(port, ()=>{
+app.listen(5000, ()=>{
     console.log(`Server started at port ${port}`)
 })
