@@ -2,7 +2,7 @@ const express = require('express')
 const app = express();
 
 const port = process.env.PORT || 5000;
-const http = `0.0.0.0`;
+// const http = `0.0.0.0`;
 
 const {connectPayHome} = require('./db')
 const cors = require('cors')
@@ -18,6 +18,6 @@ app.use('/api/user', require('./routes/user'));
 app.use('/api/transaction', require('./routes/transactions'));
 
 
-app.listen(http, port, ()=>{
+app.listen(port, ()=>{
     console.log(`Server started at port ${port}`)
 })
